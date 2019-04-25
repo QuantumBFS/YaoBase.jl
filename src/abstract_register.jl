@@ -138,7 +138,7 @@ relax!(locs::Int...; to_nactive::Union{Nothing, Int}=nothing) =
     relax!(locs; to_nactive=to_nactive)
 
 function relax!(locs::NTuple{N, Int}; to_nactive::Union{Nothing, Int}=nothing) where N
-    lambda = function (r::AbstractRegister)
+    function lambda(r::AbstractRegister)
         if to_nactive === nothing
             return relax!(r, locs; to_nactive=nqubits(r))
         else
@@ -192,7 +192,7 @@ Measure current active qubits or qubits at `locs` and set the register to specif
 @interface measure_collapseto!(::AbstractRegister; config::Int=0)
 
 # focus context
-for FUNC in [:measure!, :measure, :measure_collapseto!, :measure_remove!]
+for FUNC in [:measure!, :measure, :measure_collapseto!]
     @eval function $FUNC(reg::AbstractRegister, locs; kwargs...)
         focus!(reg, locs)
         res = $FUNC(reg; kwargs...)
@@ -200,6 +200,14 @@ for FUNC in [:measure!, :measure, :measure_collapseto!, :measure_remove!]
         normalize!(reg)
         return res
     end
+end
+
+function measure_remove!(r::AbstractRegister, locs; kwargs...)
+    focus!(r, locs)
+    res = measure_remove!(r; kwargs...)
+    relax!(r, (); to_nactive=nqubits(r))
+    normalize!(r)
+    return res
 end
 
 """
