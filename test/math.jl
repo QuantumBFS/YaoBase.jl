@@ -40,6 +40,12 @@ end
     end
 
     @test tD ≈ D
+
+    B2 = reshape(transpose(reshape(permutedims(B, (3,1,2)), 3,16)), 4,4,3)
+    @test B2 isa Base.ReshapedArray
+    @test Array(B2) ≈ B
+    D2 = batched_kron(A, B2, C)
+    @test tD ≈ D2
 end
 
 
