@@ -171,7 +171,7 @@ struct AllLocs end
 export measure, measure!, measure_remove!, measure_resetto!
 
 """
-    measure([rng,] register[, operator][, locs]; nshots=1) -> Vector{Int}
+    measure([rng,] [operator, ]register[, locs]; nshots=1) -> Vector{Int}
 
 Return measurement results of current active qubits (regarding to active qubits,
 see [`focus!`](@ref) and [`relax!`](@ref)).
