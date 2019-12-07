@@ -179,7 +179,8 @@ export measure, measure!
 """
     measure(register[, operator][, locs]; nshots=1, rng=Random.GLOBAL_RNG) -> Vector{Int}
 
-Return measurement results of current active qubits (regarding to active qubits,
+Return measurement results of qubits in `locs`.
+If `locs` is not provided, all current active qubits are measured (regarding to active qubits,
 see [`focus!`](@ref) and [`relax!`](@ref)).
 """
 function measure end
@@ -187,7 +188,7 @@ function measure end
 """
     measure!([postprocess,] [operator, ]register[, locs]; rng=Random.GLOBAL_RNG)
 
-Measure current active qubits or qubits at `locs`, after measure and collapse to state
+Measure current active qubits or qubits at `locs`. After measure and collapse,
 
     * do nothing if postprocess is `NoPostProcess`
     * reset to result state to `postprocess.config` if `postprocess` is `ResetTo`.
