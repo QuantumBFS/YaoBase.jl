@@ -210,7 +210,11 @@ function measure!(postprocess::PostProcess, op, reg::AbstractRegister, locs::Uni
     nbit = nactive(reg)
     focus!(reg, locs)
     res = measure!(postprocess, op, reg, AllLocs(); kwargs...)
-    relax!(reg, locs; to_nactive=postprocess isa RemoveMeasured ? nbit-length(locs) : nbit)
+    if postprocess isa RemoveMeasured
+        relax!(reg; to_nactive=nbit-length(locs))
+    else
+        relax!(reg, locs; to_nactive=nbit)
+    end
     res
 end
 
