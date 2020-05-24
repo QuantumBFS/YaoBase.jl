@@ -4,12 +4,28 @@ Base module for Yao.
 module YaoBase
 
 using LinearAlgebra, LuxurySparse, SparseArrays, Random
+import YaoApi: isunitary, isreflexive, iscommute,
+    AbstractRegister, AdjointRegister, AbstractBlock,
+    PostProcess,
+    NotImplementedError, LocationConflictError, QubitMismatchError,
+    instruct!, focus!, relax!, nqubits, nremain, nactive, nbatch,
+    viewbatch, addbits!, insert_qubits!, measure, measure!,
+    occupied_locs, invorder!, partial_tr,
+    @interface
+
+export ishermitian, isunitary, isreflexive, iscommute,
+    AbstractRegister, AdjointRegister, AbstractBlock,
+    PostProcess,
+    NotImplementedError, LocationConflictError, QubitMismatchError,
+    instruct!, focus!, relax!, nqubits, nremain, nactive, nbatch,
+    viewbatch, addbits!, insert_qubits!, measure, measure!,
+    occupied_locs, invorder!, partial_tr,
+    @interface
 
 include("utils/ast_tools.jl")
 
 include("utils/constants.jl")
 include("utils/math.jl")
-include("utils/interface.jl")
 
 include("error.jl")
 include("abstract_register.jl")

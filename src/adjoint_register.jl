@@ -1,15 +1,8 @@
-export AdjointRegister
-
-"""
-    AdjointRegister{B, T, RT} <: AbstractRegister{B, T}
-
-Lazy adjoint for a quantum register.
-"""
-struct AdjointRegister{B,RT<:AbstractRegister{B}} <: AbstractRegister{B}
-    parent::RT
-end
-
 Base.parent(reg::AdjointRegister) = reg.parent
+
+function Base.summary(io::IO, reg::AdjointRegister{B,RT}) where {B,RT}
+    print(io, "adjoint(", summary(reg.parent), ")")
+end
 
 """
     adjoint(register) -> register
@@ -23,8 +16,4 @@ viewbatch(reg::AdjointRegister, i::Int) = adjoint(viewbatch(parent(reg), i))
 
 for FUNC in [:nqubits, :nremain, :nactive]
     @eval $FUNC(r::AdjointRegister) = $FUNC(r.parent)
-end
-
-function Base.summary(io::IO, reg::AdjointRegister{B,RT}) where {B,RT}
-    print(io, "adjoint(", summary(reg.parent), ")")
 end

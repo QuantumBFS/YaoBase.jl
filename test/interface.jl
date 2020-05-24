@@ -1,5 +1,5 @@
 using Test, YaoBase
-using YaoBase: @interface, handle
+using YaoApi: @interface, handle
 
 if VERSION < v"1.1.0"
     isnothing(x) = x === nothing
