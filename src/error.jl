@@ -85,8 +85,8 @@ Check if the input locations has conflicts.
 """
 function islocs_conflict(locs::AddressList)
     locs = _sort(locs)
-    for (nxt, cur) in zip(locs[2:end], locs[1:end-1])
-        nonempty_minimum(nxt) > nonempty_maximum(cur) || return true
+    for i = 1:length(locs)-1
+        nonempty_minimum(locs[i+1]) > nonempty_maximum(locs[i]) || return true
     end
     return false
 end
@@ -99,7 +99,8 @@ function process_msgs(msgs...; default = "")
         # message is an expression needing evaluating
         msg = :(Main.Base.string($(esc(msg))))
     elseif isdefined(Main, :Base) &&
-           isdefined(Main.Base, :string) && applicable(Main.Base.string, msg)
+           isdefined(Main.Base, :string) &&
+           applicable(Main.Base.string, msg)
         msg = Main.Base.string(msg)
     else
         # string() might not be defined during bootstrap
