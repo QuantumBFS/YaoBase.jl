@@ -1,4 +1,3 @@
-using MacroTools: @forward
 export AdjointRegister
 
 """
@@ -22,7 +21,9 @@ Base.adjoint(reg::AdjointRegister) = parent(reg)
 
 viewbatch(reg::AdjointRegister, i::Int) = adjoint(viewbatch(parent(reg), i))
 
-@forward AdjointRegister.parent nqubits, nremain, nactive
+for FUNC in [:nqubits, :nremain, :nactive]
+    @eval $FUNC(r::AdjointRegister) = $FUNC(r.parent)
+end
 
 function Base.summary(io::IO, reg::AdjointRegister{B,RT}) where {B,RT}
     print(io, "adjoint(", summary(reg.parent), ")")
