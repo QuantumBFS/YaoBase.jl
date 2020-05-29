@@ -11,7 +11,6 @@ insert_qubits!(loc::Int; nqubits::Int = 1) =
 
 nremain(r::AbstractRegister) = nqubits(r) - nactive(r)
 nbatch(r::AbstractRegister{B}) where {B} = B
-occupied_locs(x::AbstractBlock) = (1:nqubits(x)...,)
 
 """
     focus(f, register, locs...)
@@ -129,7 +128,7 @@ end
 
 Returns an `UnitRange` of the all the bits in the Hilbert space of given register.
 """
-@interface BitBasis.basis(r::AbstractRegister) = basis(nqubits(r))
+BitBasis.basis(r::AbstractRegister) = basis(nqubits(r))
 
 invorder!(r::AbstractRegister) = reorder!(r, Tuple(nactive(r):-1:1))
 
