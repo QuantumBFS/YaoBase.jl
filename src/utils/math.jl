@@ -134,7 +134,7 @@ function batched_kron!(
     return C
 end
 
-if !@isdefined(kron!)
+@static if !@isdefined(kron!)
     export kron!
     # NOTE: JuliaLang/julia/pull/31069 includes this function
     function kron!(
